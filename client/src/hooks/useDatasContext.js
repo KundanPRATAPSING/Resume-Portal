@@ -10,3 +10,11 @@ export const useDatasContext = () => {
 
   return context
 }
+
+
+
+////This hook gives me access to the resume data context.
+//  So when a new resume is added, 
+// I dispatch CREATE_DATA to update the global list — that way, t
+// he UI updates immediately without needing to refresh.
+

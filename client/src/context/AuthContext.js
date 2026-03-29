@@ -1,11 +1,11 @@
 import { createContext, useReducer, useEffect } from 'react'
 
 export const AuthContext = createContext()
-
+//////here i hve created global auth state using useReducer
 export const authReducer = (state, action) => {
   switch (action.type) {
-    case 'LOGIN':
-      return { user: action.payload }
+    case 'LOGIN': //login function dispatched
+      return { user: action.payload }  //state updated like this
     case 'LOGOUT':
       return { user: null }
     default:
@@ -28,8 +28,10 @@ export const AuthContextProvider = ({ children }) => {
 
   console.log('AuthContext state:', state)
   
-  return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
+  return ( 
+    //wrapped whole app inside this provider so every component can access the auth state
+
+    <AuthContext.Provider value={{ ...state, dispatch }}> 
       { children }
     </AuthContext.Provider>
   )

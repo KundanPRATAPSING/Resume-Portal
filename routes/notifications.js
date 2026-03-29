@@ -11,6 +11,12 @@ const requireAuth = require('../middleware/requireAuth')
   // GET ALL NOtiFICATIONS FOR Students
 
   router.get('/',NotifiController.Notification_getallNotifis);
+
+  // GET unread notification count for badge
+  router.get('/unreadcount', NotifiController.Notification_unread_count)
+
+  // mark notifications as read for current user
+  router.post('/mark-read', NotifiController.Notification_mark_read)
   
 
   // POST a new Notifications

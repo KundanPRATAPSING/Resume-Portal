@@ -10,3 +10,7 @@ export const useAuthContext = () => {
 
   return context
 }
+
+
+//helper hook created to  easily access the auth state in any component.
+//so instead of writing useContext(AuthContext) everywhere i call this

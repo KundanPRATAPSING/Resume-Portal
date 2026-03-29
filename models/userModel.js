@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const validator = require('validator')
 
 const Schema = mongoose.Schema
@@ -17,6 +17,28 @@ const userSchema = new Schema({
   role:{
     type: String,
     required: true
+  },
+  passwordResetToken: {
+    type: String
+  },
+  passwordResetExpires: {
+    type: Date
+  },
+  notificationLastReadAt: {
+    type: Date
+  },
+  failedLoginAttempts: {
+    type: Number,
+    default: 0
+  },
+  lockUntil: {
+    type: Date
+  },
+  refreshTokenHash: {
+    type: String
+  },
+  refreshTokenExpiresAt: {
+    type: Date
   }
 })
 
@@ -58,6 +80,10 @@ userSchema.statics.login = async function(email, password,role) {
   const user = await this.findOne({ email })
   if (!user) {
     throw Error('Incorrect email')
+  }
+
+  if (user.lockUntil && user.lockUntil > new Date()) {
+    throw Error('Account temporarily locked due to multiple failed attempts. Try again later.')
   }
 
   const match = await bcrypt.compare(password, user.password)

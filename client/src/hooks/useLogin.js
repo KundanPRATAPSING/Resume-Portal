@@ -9,27 +9,30 @@ export const useLogin = () => {
   const login = async (email, password,role) => {
     setIsLoading(true)
     setError(null)
+    try {
+      const response = await fetch(`http://localhost:4000/api/user/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, role })
+      })
 
-    const response = await fetch('/api/user/login', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ email, password,role})
-    })
-    const json = await response.json()
+      const json = await response.json().catch(() => ({}))
 
-    if (!response.ok) {
-      setIsLoading(false)
-      setError(json.error)
-    }
-    if (response.ok) {
+      if (!response.ok) {
+        setIsLoading(false)
+        setError(json.error || 'Login failed')
+        return
+      }
+
       // save the user to local storage
       localStorage.setItem('user', JSON.stringify(json))
 
       // update the auth context
-      dispatch({type: 'LOGIN', payload: json})
-
-      // update loading state
+      dispatch({ type: 'LOGIN', payload: json })
       setIsLoading(false)
+    } catch (e) {
+      setIsLoading(false)
+      setError('Server not reachable. Make sure backend runs on port 4000.')
     }
   }
 

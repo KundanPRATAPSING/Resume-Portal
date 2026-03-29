@@ -1,33 +1,150 @@
-const Mainpage = () => {
-    return (  
-        <div className="mainpage">
-            <img className='mainpage-image'src='https://images.collegedunia.com/public/image/7460785d7ef35517b4eeb1e5d1f51597.png' alt="IIITL" ></img>
-            <div class="grid-container-element">
-    <div class="grid-child-element-1">
-    </div>
-    <div class="grid-child-element-2">
-      <h1><center>Our Director’s Message</center></h1>
-      <p className="textx">Welcome to the Indian Institute of Information Technology, Lucknow, an institute of national importance. IIITs have a tradition of producing best-in-class human resources in multi-dimensional aspects of Engineering and Management. IIIT Lucknow is an emerging institute that takes this initiative further in leaps and bounds by providing world-class education in Engineering, Technology, and Business. We have a team of best educators and industrialists who teach contemporary topics and bring real-life scenarios to the classroom. With this kind of training, our students enter the real world with full awareness and become adept in problem-solving.</p>      
-    </div>
-</div>
-<div className="process">
-  <center><img  className='image-process' src="https://github.com/Priyanshu475/MyFitnessPal_MERN/assets/96469123/74626624-c5d8-4bd1-a5dc-5f84df53432e" alt="" /></center>
-</div>
-                  <center><div className='mainpage-text'>
-                <center><h5>Greetings from the Placement Team!</h5></center>
-                <h4>Hello Everyone,</h4>
-                <p>Resume portal is specifically designed to assist students in their pursuit of placement or internship opportunities. We kindly request all students to utilize this portal to upload their resumes, as it will be used by companies during the placement or internship selection process.</p>
-                <p>Our resume portal serves as a centralized platform where you can showcase your skills, qualifications, and experiences to prospective employers. By uploading your resume, you provide companies with valuable insights into your background and abilities, increasing your chances of securing desirable opportunities.</p>
-                <p>To make the most of this portal, please ensure that your resume is up-to-date, accurate, and tailored to highlight your relevant achievements and competencies. It's essential to showcase your educational background, relevant coursework, projects, internships, extracurricular activities, and any other experiences that demonstrate your potential as a candidate.By utilizing our resume portal, you benefit from a streamlined application process. Companies can conveniently access your resume and consider you for various placement or internship positions that match your qualifications. This efficient method enhances your exposure to a wide range of opportunities and maximizes your chances of securing a position that aligns with your career goals.We encourage you to regularly update your resume on the portal to reflect any recent accomplishments or acquired skills. Remember, your resume is a reflection of your professional profile, and keeping it current and comprehensive will greatly enhance your prospects in the placement or internship process.
+import { Link } from 'react-router-dom'
 
-Please note that the information you provide on the resume portal will be treated with utmost confidentiality and will only be accessible to relevant employers involved in the placement or internship process. We prioritize your privacy and ensure that your personal details are handled securely.</p>
-<p>For any further assistance or inquiries regarding the resume portal, please do not hesitate to reach out placement team, who will be more than happy to assist you.</p>
-
-<center><h5>Thank you for your cooperation, and we wish you the best of luck in your placement or internship endeavors! 😊</h5></center>
-    </div>
-    </center>
-  </div>
-    );
+const toYoutubeEmbedUrl = (url) => {
+  const value = String(url || '')
+  const match = value.match(/[?&]v=([^&]+)/)
+  if (match && match[1]) return `https://www.youtube.com/embed/${match[1]}`
+  if (value.includes('youtu.be/')) {
+    const parts = value.split('youtu.be/')
+    const id = (parts[1] || '').split(/[?&]/)[0]
+    if (id) return `https://www.youtube.com/embed/${id}`
+  }
+  return value
 }
- 
-export default Mainpage;
+
+const isYoutubeUrl = (url) => /youtube\.com|youtu\.be/.test(String(url || ''))
+const getYoutubeId = (url) => {
+  const value = String(url || '')
+  const fromQuery = value.match(/[?&]v=([^&]+)/)
+  if (fromQuery && fromQuery[1]) return fromQuery[1]
+  if (value.includes('youtu.be/')) {
+    const parts = value.split('youtu.be/')
+    return (parts[1] || '').split(/[?&]/)[0]
+  }
+  return ''
+}
+
+const HOME_VIDEOS = [
+  {
+    title: 'Campus Life',
+    desc: 'A quick glimpse of student life and campus energy.',
+    src: process.env.REACT_APP_HOME_VIDEO_1 || 'https://www.youtube.com/watch?v=wy4yNkhBQp4&pp=ygUYaWlpdCBsdWNrbm93IGNhbXB1cyB0b3Vy',
+    thumbnail: '/images/first-video-thumb.png'
+  },
+  {
+    title: 'IIIT Lucknow Placements Spotlight',
+    desc: 'Placement growth highlights, top outcomes, and campus career momentum.',
+    src: process.env.REACT_APP_HOME_VIDEO_2 || 'https://www.youtube.com/watch?v=UP3mI-K13ig&pp=ygUYaWlpdCBsdWNrbm93IGNhbXB1cyB0b3Vy'
+  },
+  {
+    title: 'Director’s Vision',
+    desc: 'Leadership perspective on institute direction, student growth, and future outcomes.',
+    src: process.env.REACT_APP_HOME_VIDEO_3 || 'https://www.youtube.com/watch?v=qatyCaIyalk&pp=ygUVaWlpdCBsdWNrbm93IGRpcmVjdG9y'
+  }
+]
+
+const Mainpage = () => {
+  return (
+    <div className="landing-home">
+      <section className="landing-hero">
+        <div className="landing-overlay" />
+        <img
+          className="landing-hero-image"
+          src="https://cdn.pixabay.com/photo/2021/10/11/04/08/university-6699377_1280.jpg"
+          alt="IIIT Lucknow campus"
+        />
+        <div className="landing-hero-content container">
+          <span className="landing-chip">IIIT Lucknow Placement Cell</span>
+          <h1>Resume Portal For Campus Placements</h1>
+          <p>
+            One platform for profile, company drives, timelines, notifications, analytics, and admin control.
+          </p>
+          <div className="landing-cta-row">
+            <Link to="/login" className="btn btn-primary">Login</Link>
+            <Link to="/signup" className="btn btn-outline-light">Create Account</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="landing-section container">
+        <div className="landing-section-head">
+          <h2>Campus Showcase</h2>
+          <p>Your 3 video highlights in a clean production-style layout.</p>
+        </div>
+        <div className="landing-video-grid">
+          {HOME_VIDEOS.map((video) => (
+            <article className="landing-video-card" key={video.title}>
+              {isYoutubeUrl(video.src) ? (
+                <a
+                  href={video.src}
+                  target="_blank"
+                  rel="noreferrer"
+                  title={`Watch ${video.title} on YouTube`}
+                  style={{ display: 'block', position: 'relative' }}
+                >
+                  <img
+                    src={video.thumbnail || `https://img.youtube.com/vi/${getYoutubeId(video.src)}/hqdefault.jpg`}
+                    alt={`${video.title} thumbnail`}
+                    style={{
+                      width: '100%',
+                      minHeight: '190px',
+                      objectFit: 'cover',
+                      borderRadius: '10px 10px 0 0'
+                    }}
+                  />
+                  <span
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      bottom: '10px',
+                      background: 'rgba(0, 0, 0, 0.7)',
+                      color: '#fff',
+                      padding: '6px 10px',
+                      borderRadius: '8px',
+                      fontSize: '0.8rem'
+                    }}
+                  >
+                    Watch on YouTube
+                  </span>
+                </a>
+              ) : (
+                <video controls muted preload="metadata" playsInline>
+                  <source src={video.src} type="video/mp4" />
+                </video>
+              )}
+              <div className="landing-video-meta">
+                <h5>{video.title}</h5>
+                <p>{video.desc}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="landing-section container">
+        <div className="landing-section-head">
+          <h2>How It Works</h2>
+        </div>
+        <div className="landing-steps">
+          <div className="landing-step-card">
+            <span>01</span>
+            <h6>Create Profile</h6>
+            <p>Upload resume, fill details, and keep profile interview-ready.</p>
+          </div>
+          <div className="landing-step-card">
+            <span>02</span>
+            <h6>Track Drives</h6>
+            <p>Follow deadlines, rounds, shortlists, and status in real time.</p>
+          </div>
+          <div className="landing-step-card">
+            <span>03</span>
+            <h6>Convert To Offers</h6>
+            <p>Use analytics, timeline and AI prep to improve outcomes.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+export default Mainpage

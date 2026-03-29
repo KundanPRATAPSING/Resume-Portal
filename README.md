@@ -70,3 +70,10 @@
 
 # Thank You !
 
+## New: Resume parsing API (dev)
+- Endpoint: `POST /api/data/parse`
+- Auth: requires the existing JWT auth (same as other data routes).
+- Form field: `resume` (PDF, max 5MB).
+- Response: structured `profile` (contact, skills, education, experience), `completeness.score` (0-100) and `rawText` for client-side editing.
+- Intended flow: upload → prefill an editable profile form → let the user adjust and save.
+
